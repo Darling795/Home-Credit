@@ -17,6 +17,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "react-custom-roulette": "^1.4.1",
     "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4"
   }
