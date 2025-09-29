@@ -52,7 +52,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ## 📷 Preview
 
-*(Add a screenshot or GIF here to show off the timer + wheel UI)*
+<img width="2449" height="1117" alt="image" src="https://github.com/user-attachments/assets/b7a331af-eb7c-4656-8ec4-4a5a51e6fd64" />
+
+<img width="2274" height="1186" alt="image" src="https://github.com/user-attachments/assets/d443f39c-83a5-40cb-ab34-96023625c518" />
+
 
 ---
 
@@ -68,8 +71,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ## 📄 License
 
-MIT License © 2025 [Your Name]
-
----
-
-Do you want me to also **write a short usage guide** (like how to add names & images to the wheel), or just keep the README lightweight?
+MIT License © 2025 Dominic Bernas
