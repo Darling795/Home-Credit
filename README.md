@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🎯 Spin & Timer App
 
-First, run the development server:
+A simple and fun web app built with **Next.js**, **TypeScript**, and **Tailwind CSS**.
+It features:
+
+* ⏱ **60-second countdown timer**
+* 🎡 **Customizable spin-the-wheel** where you can add names & images to the wheel segments
+
+Perfect for games, team activities, or just for fun.
+
+---
+
+## 🚀 Tech Stack
+
+* [Next.js](https://nextjs.org/) – React framework for production apps
+* [TypeScript](https://www.typescriptlang.org/) – Strongly typed JavaScript
+* [Tailwind CSS](https://tailwindcss.com/) – Utility-first styling
+
+---
+
+## ⚡ Features
+
+* **Timer** – Start, pause, and reset a 60s countdown
+* **Spin the Wheel** – Add/remove wheel segments with:
+
+  * Custom **names**
+  * Optional **images**
+* Smooth animations and responsive design
+
+---
+
+## 🖥️ Getting Started
+
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📷 Preview
 
-## Learn More
+<img width="2449" height="1117" alt="image" src="https://github.com/user-attachments/assets/b7a331af-eb7c-4656-8ec4-4a5a51e6fd64" />
 
-To learn more about Next.js, take a look at the following resources:
+<img width="2274" height="1186" alt="image" src="https://github.com/user-attachments/assets/d443f39c-83a5-40cb-ab34-96023625c518" />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📌 Roadmap / Ideas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* ✅ Basic timer (60s)
+* ✅ Customizable spin wheel (name + image)
+* 🔲 Save preset wheels
+* 🔲 Timer length customization
+* 🔲 Mobile-friendly drag & drop editor
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📄 License
+
+MIT License © 2025 Dominic Bernas
