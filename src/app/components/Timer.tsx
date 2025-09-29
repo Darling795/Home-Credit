@@ -122,7 +122,7 @@ const EventScene: React.FC = () => {
             </div>
             <div className="flex justify-center mt-6">
               <Image
-                src="/assets/Home_Credit_Logo.svg.png"
+                src="/assets/Home_Credit_logo.svg.png"
                 alt="Home Credit Logo"
                 width={90}
                 height={35}
@@ -176,7 +176,7 @@ const EventScene: React.FC = () => {
             <TimerDisplay />
             <div className="mt-8">
               <Image
-                src="/assets/Home_Credit_Logo.svg.png"
+                src="/assets/Home_Credit_logo.svg.png"
                 alt="Home Credit Logo"
                 width={120}
                 height={50}
