@@ -5,37 +5,82 @@ import React, { useEffect, useState } from "react";
 
 // Helper component for the timer display with responsive text size
 const TimerDisplay: React.FC = () => {
-  const initialTime = 23 * 3600 + 59 * 60 + 29;
+  const initialTime = 60; // Set timer to 60 seconds
   const [time, setTime] = useState(initialTime);
+  const [isActive, setIsActive] = useState(false); // State to track if timer is running
 
   useEffect(() => {
-    const timerInterval = setInterval(() => {
-      setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
+    let timerInterval: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(timerInterval);
-  }, []);
+    // Only run the interval if the timer is active and time is greater than 0
+    if (isActive && time > 0) {
+      timerInterval = setInterval(() => {
+        setTime((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (time === 0) {
+      // Stop the timer when it reaches 0
+      setIsActive(false);
+    }
+
+    // Cleanup function to clear the interval
+    return () => {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+    };
+  }, [isActive, time]); // Rerun effect when isActive or time changes
+
+  const handleStart = () => {
+    // If timer is at 0, reset it before starting
+    if (time === 0) {
+      setTime(initialTime);
+    }
+    setIsActive(true);
+  };
+
+  const handleRestart = () => {
+    setIsActive(false);
+    setTime(initialTime);
+  };
 
   const formatTime = (seconds: number): string => {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
+    const m = Math.floor(seconds / 60);
     const s = seconds % 60;
 
-    return `${h.toString().padStart(2, "0")}:${m
-      .toString()
-      .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+    // Format as MM:SS
+    return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
   return (
-    <div
-      // Responsive text size: smaller on mobile, larger on desktop
-      className="text-6xl md:text-7xl lg:text-8xl font-mono font-bold text-red-500 tracking-wider"
-      style={{
-        textShadow:
-          "0 0 10px rgba(239, 68, 68, 0.7), 0 0 20px rgba(239, 68, 68, 0.5), 0 0 30px rgba(239, 68, 68, 0.3)",
-      }}
-    >
-      {formatTime(time)}
+    <div className="flex flex-col items-center">
+      <div
+        // Responsive text size: smaller on mobile, larger on desktop
+        className="text-6xl md:text-7xl lg:text-8xl font-mono font-bold text-red-500 tracking-wider"
+        style={{
+          textShadow:
+            "0 0 10px rgba(239, 68, 68, 0.7), 0 0 20px rgba(239, 68, 68, 0.5), 0 0 30px rgba(239, 68, 68, 0.3)",
+        }}
+      >
+        {formatTime(time)}
+      </div>
+      {/* Container for control buttons */}
+      <div className="mt-6 flex gap-4">
+        {!isActive ? (
+          <button
+            onClick={handleStart}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors duration-300"
+          >
+            {time === 0 ? "Try Again" : "Start"}
+          </button>
+        ) : (
+          <button
+            onClick={handleRestart}
+            className="bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-8 rounded-lg text-xl transition-colors duration-300"
+          >
+            Restart
+          </button>
+        )}
+      </div>
     </div>
   );
 };
@@ -44,16 +89,10 @@ const TimerDisplay: React.FC = () => {
 const EventScene: React.FC = () => {
   return (
     <div
-      className="relative flex min-h-screen w-full items-center justify-center text-white p-6 md:p-12 overflow-hidden"
-      // New radial gradient for a spotlight effect
-      style={{
-        background:
-          "radial-gradient(circle, rgba(60,0,0,1) 0%, rgba(0,0,0,1) 80%)",
-      }}
+      className="relative flex min-h-screen w-full items-center justify-center text-white p-6 md:p-12 overflow-hidden bg-red-900" // Changed background to a solid light red (within the dark theme)
     >
       {/* Container to handle responsive layout */}
       <div className="relative w-full max-w-screen-2xl flex flex-col lg:flex-row justify-around items-center gap-20 lg:gap-8">
-        
         {/* Floor shadow to ground the elements */}
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black/50 to-transparent blur-2xl z-0"></div>
 
@@ -129,7 +168,7 @@ const EventScene: React.FC = () => {
             style={{ boxShadow: "inset 0 0 25px -10px #000" }}
           >
             <h2
-              className="text-3xl lg:text-4xl text-red-400 italic font-serif mb-8"
+              className="text-3xl lg:text-4xl text-red-400 italic font-serif mb-4" // Reduced margin bottom to make space for buttons
               style={{ textShadow: "0 0 12px rgba(220, 38, 38, 0.6)" }}
             >
               The Buzzwire
