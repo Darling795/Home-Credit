@@ -160,7 +160,7 @@ const SpinTheWheel: React.FC = () => {
       <div className="w-full bg-white flex items-center justify-center py-6 px-8 shadow-lg">
         <div className="flex items-center gap-12 sm:gap-16">
           <Image
-            src="/assets/HC-logo-Horizontal.png"
+            src="/assets/HC-Logo-Horizontal.png"
             alt="Home Credit"
             width={240}
             height={90}
