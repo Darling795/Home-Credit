@@ -6,8 +6,8 @@ import SpinTheWheel from "./components/SpinTheWheel";
 export default function Home() {
   return (
     <main>
-      <EventScene />
-      {/* <SpinTheWheel /> */}
+      {/* <EventScene /> */}
+      <SpinTheWheel />
     </main>
   );
 }
