@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <main>
       <EventScene />
-      <SpinTheWheel />
+      {/* <SpinTheWheel /> */}
     </main>
   );
 }

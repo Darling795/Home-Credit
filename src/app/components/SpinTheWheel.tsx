@@ -21,6 +21,7 @@ const initialWheelItems: WheelItem[] = [
   { name: "Try Again" },
 ];
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
+
 const SpinTheWheel: React.FC = () => {
   const wheelContainerRef = useRef<HTMLDivElement>(null);
   const wheelInstanceRef = useRef<any>(null);
@@ -147,8 +148,19 @@ const SpinTheWheel: React.FC = () => {
         <div className="flex flex-col items-center justify-center text-center">
           <h1 className="text-5xl md:text-6xl font-black text-black tracking-wider mb-4">PLAY AND WIN</h1>
           
-
           <div className="relative w-[600px] h-[600px] md:w-[700px] md:h-[700px] flex items-center justify-center">
+            
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 z-30"
+              style={{
+                borderLeft: '20px solid transparent',
+                borderRight: '20px solid transparent',
+                borderTop: `30px solid #000000`,
+                filter: 'drop-shadow(0 2px 2px rgba(0,0,0,0.5))'
+              }}
+              aria-hidden="true"
+            />
+
             <div 
               ref={wheelContainerRef} 
               className="w-full h-full"
@@ -164,29 +176,30 @@ const SpinTheWheel: React.FC = () => {
             >
               <div className="text-white font-black text-2xl md:text-3xl leading-tight tracking-wide">
                   <Image
-            src="/assets/white.png"
-            alt="Home Credit"
-            width={240}
-            height={90}
-            className="object-contain h-16 w-auto sm:h-20"
-            priority
-          />
+                    src="/assets/white.png"
+                    alt="Home Credit"
+                    width={240}
+                    height={90}
+                    className="object-contain h-16 w-auto sm:h-20"
+                    priority
+                  />
               </div>
             </button>
           </div>
 
+          {/* ✨ START: Button Size Adjusted ✨ */}
           <button
             onClick={() => setIsConfigVisible(true)}
-            className="rounded-2xl text-m font-bold text-white py-8 px-24 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
-          style={{
-            backgroundColor: "#E11931",
-            boxShadow:
-              "0 10px 40px rgba(225,25,49,0.5), 0 0 80px rgba(225,25,49,0.3)",
-            fontFamily: camptonStack,
-          }}
+            className="mt-6 rounded-2xl text-lg font-bold text-white py-4 px-12 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
+            style={{
+              backgroundColor: "#E11931",
+              boxShadow: "0 10px 40px rgba(225,25,49,0.5), 0 0 80px rgba(225,25,49,0.3)",
+              fontFamily: camptonStack,
+            }}
           >
             🎯 Customize Wheel
           </button>
+          {/* ✨ END: Button Size Adjusted ✨ */}
         </div>
       </div>
 
