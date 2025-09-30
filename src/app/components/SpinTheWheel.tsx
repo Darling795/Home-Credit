@@ -17,8 +17,8 @@ const initialWheelItems: WheelItem[] = [
   { name: "Umbrella" },
   { name: "Tote Bag" },
   { name: "Tumbler" },
-  { name: "Try Again" },
-  { name: "Try Again" },
+  { name: "Thanks for trying" },
+  { name: "Thanks for trying" },
 ];
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
 
@@ -61,7 +61,9 @@ const SpinTheWheel: React.FC = () => {
       itemLabelAlign: 'center',
       itemLabelColors: items.map(item => item.labelColor),
       itemLabelBaselineOffset: 0,
-      itemLabelFont: 'Arial',
+      // ✨ CHANGE #1: Use a much bolder font family ✨
+      itemLabelFont: '"Arial Black"', 
+      // ✨ CHANGE #2: Increase the max font size for more impact ✨
       itemLabelFontSizeMax: 10,
       itemBackgroundColors: items.map(item => item.backgroundColor),
       rotationSpeedMax: 500,
@@ -74,7 +76,7 @@ const SpinTheWheel: React.FC = () => {
         setSelectedItem(winningItem);
         setIsSpinning(false);
         
-        if (winningItem && !winningItem.name.toLowerCase().includes("try again")) {
+        if (winningItem && !winningItem.name.toLowerCase().includes("thanks for trying")) {
           setTimeout(() => setIsModalOpen(true), 500);
         }
       }
@@ -187,7 +189,6 @@ const SpinTheWheel: React.FC = () => {
             </button>
           </div>
 
-          {/* ✨ START: Button Size Adjusted ✨ */}
           <button
             onClick={() => setIsConfigVisible(true)}
             className="mt-6 rounded-2xl text-lg font-bold text-white py-4 px-12 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
@@ -199,7 +200,6 @@ const SpinTheWheel: React.FC = () => {
           >
             🎯 Customize Wheel
           </button>
-          {/* ✨ END: Button Size Adjusted ✨ */}
         </div>
       </div>
 
