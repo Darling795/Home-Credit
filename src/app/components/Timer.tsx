@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
 
+// --- TimerDisplay component with "Time's Up!" and "Restart" logic is kept ---
 const TimerDisplay: React.FC = () => {
   const initialTime = 60;
   const [time, setTime] = useState(initialTime);
@@ -24,7 +25,7 @@ const TimerDisplay: React.FC = () => {
     if (time === 0) setTime(initialTime);
     setIsActive(true);
   };
-
+  
   const handleRestart = () => {
     setIsActive(false);
     setTime(initialTime);
@@ -36,10 +37,14 @@ const TimerDisplay: React.FC = () => {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
+  const isTimeUp = time === 0;
+
   return (
     <div className="flex flex-col items-center gap-16">
       <div
-        className="text-[20vw] font-mono font-black tracking-wider leading-none"
+        className={`font-mono font-black tracking-wider leading-none transition-all duration-300 ${
+          isTimeUp ? "text-[12vw]" : "text-[20vw]"
+        }`}
         style={{
           color: "#E11931",
           textShadow:
@@ -47,7 +52,7 @@ const TimerDisplay: React.FC = () => {
           WebkitTextStroke: "2px rgba(225,25,49,0.3)",
         }}
       >
-        {formatTime(time)}
+        {isTimeUp ? "Time's Up!" : formatTime(time)}
       </div>
 
       {!isActive ? (
@@ -61,7 +66,7 @@ const TimerDisplay: React.FC = () => {
             fontFamily: camptonStack,
           }}
         >
-          {time === 0 ? "Try Again" : "Start"}
+          {isTimeUp ? "Restart" : "Start"}
         </button>
       ) : (
         <button
@@ -80,6 +85,8 @@ const TimerDisplay: React.FC = () => {
   );
 };
 
+
+// --- EventScene component layout has been reverted ---
 const EventScene: React.FC = () => {
   // Toggle Logo 2 between iCenter and Aerophone
   const [showAltLogo, setShowAltLogo] = useState(false);
@@ -87,12 +94,12 @@ const EventScene: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white">
-      {/* Top header */}
+      {/* REVERT: The top header structure is restored as it was originally. */}
       <div className="w-full bg-white flex items-center justify-center py-6 px-8 shadow-2xl">
         <div className="flex items-center gap-12 sm:gap-16">
           {/* Logo 1 */}
           <Image
-            src="/assets/HC-LOGO.png"
+            src="/assets/HC-Logo-Horizontal.png"
             alt="Home Credit"
             width={240}
             height={90}
@@ -116,7 +123,7 @@ const EventScene: React.FC = () => {
               key={showAltLogo ? "aerophone" : "icenter"} // forces re-render
               src={
                 showAltLogo
-                  ? "/assets/aerophone_Black_font.png" // <-- swapped image
+                  ? "/assets/aerophone_Black_font.png"
                   : "/assets/ICenter_Logo.png"
               }
               alt={showAltLogo ? "Aerophone" : "iCenter"}
@@ -129,7 +136,7 @@ const EventScene: React.FC = () => {
         </div>
       </div>
 
-      {/* Center content */}
+      {/* REVERT: Center content no longer contains the logos. */}
       <div className="flex-1 flex flex-col items-center justify-center p-12 gap-8">
         <h2
           style={{
@@ -141,7 +148,7 @@ const EventScene: React.FC = () => {
             textShadow:
               "0 0 20px rgba(225,25,49,0.8), 0 0 40px rgba(225,25,49,0.5), 0 0 60px rgba(225,25,49,0.3), 0 6px 15px rgba(0,0,0,0.5)",
             letterSpacing: "0.02em",
-            marginBottom: "1rem",
+            marginBottom: "1rem", // Margin is restored
           }}
         >
           The Buzzwire

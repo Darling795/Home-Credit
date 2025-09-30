@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
-import Image from "next/image"; // --- NEW: Import the Image component ---
+import Image from "next/image";
 import Configuration, { WheelItem } from "./configurations";
 import WinnerModal from './WinnerModal';
 
@@ -12,14 +12,16 @@ const Wheel = dynamic(
 );
 
 const initialWheelItems: WheelItem[] = [
-  { name: "APPLE AIR PODS" },
-  { name: "APPLE 20W USB-C POWER ADAPTER W/ USB-C TO LIGHTNING CABLE" },
-  { name: "APPLE WATCH SERIES 11" },
-  { name: "THANK YOU FOR TRYING" },
-  { name: "APPLE MAGSAF CHARGER" },
-  { name: "THANK YOU FOR TRYING" },
-  { name: "APPLE iPAD AIR 5TH GEN" },
-  { name: "THANK YOU FOR TRYING" },
+  { name: "Macbook Air" },
+  { name: "Iphone 17 Air" },
+  { name: "Iphone 17 Pro Max" },
+  { name: "Airpods" },
+  { name: "Magsafe" },
+  { name: "Umbrella" },
+  { name: "Tote Bag" },
+  { name: "Tumbler" },
+  { name: "Thankyou for trying" },
+  { name: "Thankyou for trying" },
 ];
 
 interface WheelData {
@@ -45,7 +47,7 @@ const createTextAsImage = (
     if (!ctx) return resolve("");
 
     ctx.fillStyle = textColor;
-    ctx.font = "800 24px Arial, sans-serif"; 
+    ctx.font = "800 48px Arial, sans-serif";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
@@ -74,8 +76,7 @@ const createTextAsImage = (
         context.fillText(lines[k].trim(), x, startY + (k * lineHeight));
       }
     };
-
-    wrapText(ctx, text, canvasWidth / 2, canvasHeight / 2, 280, 28);
+    wrapText(ctx, text, canvasWidth / 2, canvasHeight / 2, 480, 52); 
     resolve(canvas.toDataURL("image/png"));
   });
 };
@@ -89,8 +90,7 @@ const SpinTheWheel: React.FC = () => {
   const [processedWheelData, setProcessedWheelData] = useState<WheelData[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  
-  // --- NEW: State and handler for the swappable logo ---
+  const [isConfigVisible, setIsConfigVisible] = useState(true);
   const [showAltLogo, setShowAltLogo] = useState(false);
   const handleSwapLogo = () => setShowAltLogo(v => !v);
 
@@ -101,14 +101,14 @@ const SpinTheWheel: React.FC = () => {
         const isWhiteSegment = index % 2 === 0;
         const textColor = isWhiteSegment ? '#E30613' : '#FFFFFF';
         
-        const imageUri = await createTextAsImage(item.name, textColor, 300, 200);
+        const imageUri = await createTextAsImage(item.name, textColor, 500, 300);
 
         return {
           option: '',
           image: {
             uri: imageUri,
-            sizeMultiplier: 0.6,
-            offsetY: -10,
+            sizeMultiplier: 0.7,
+            offsetY: -20,
           },
           style: {
             backgroundColor: isWhiteSegment ? '#FFFFFF' : '#E30613',
@@ -124,7 +124,7 @@ const SpinTheWheel: React.FC = () => {
     if (wheelItems.length > 0) {
       processItems();
     } else {
-        setProcessedWheelData([]);
+      setProcessedWheelData([]);
     }
   }, [wheelItems]);
 
@@ -142,8 +142,8 @@ const SpinTheWheel: React.FC = () => {
     const winningItem = wheelItems[prizeNumber];
     setSelectedItem(winningItem);
     
-    if (winningItem && winningItem.name.toUpperCase() !== "THANK YOU FOR TRYING") {
-      setIsModalOpen(true);
+    if (winningItem && !winningItem.name.toLowerCase().includes("thankyou for trying")) {
+      setTimeout(() => setIsModalOpen(true), 500);
     }
   };
 
@@ -156,13 +156,11 @@ const SpinTheWheel: React.FC = () => {
   };
 
   return (
-    // --- CHANGE: Added a main container with flex-col layout ---
     <div className="min-h-screen flex flex-col bg-gray-100 font-sans">
-      {/* --- NEW: Swappable Logo Header --- */}
       <div className="w-full bg-white flex items-center justify-center py-6 px-8 shadow-lg">
         <div className="flex items-center gap-12 sm:gap-16">
           <Image
-            src="/assets/HC-LOGO.png"
+            src="/assets/HC-logo-Horizontal.png"
             alt="Home Credit"
             width={240}
             height={90}
@@ -179,12 +177,8 @@ const SpinTheWheel: React.FC = () => {
             title="Swap logo"
           >
             <Image
-              key={showAltLogo ? "aerophone" : "icenter"} // forces re-render
-              src={
-                showAltLogo
-                  ? "/assets/aerophone_Black_font.png"
-                  : "/assets/ICenter_Logo.png"
-              }
+              key={showAltLogo ? "aerophone" : "icenter"}
+              src={ showAltLogo ? "/assets/aerophone_Black_font.png" : "/assets/ICenter_Logo.png" }
               alt={showAltLogo ? "Aerophone" : "iCenter"}
               width={240}
               height={90}
@@ -195,7 +189,6 @@ const SpinTheWheel: React.FC = () => {
         </div>
       </div>
 
-      {/* --- CHANGE: Wrapped original content to fill remaining space --- */}
       <div className="flex-1 relative flex w-full flex-col items-center justify-center gap-12 p-4 lg:flex-row lg:items-start lg:p-8 overflow-hidden">
         <div className="flex flex-col items-center justify-center mt-8 text-center">
           <h1 className="text-5xl md:text-6xl font-black text-black tracking-wider mb-8">PLAY AND WIN</h1>
@@ -220,13 +213,9 @@ const SpinTheWheel: React.FC = () => {
             <button
               onClick={handleSpinClick}
               disabled={mustSpin || isLoading || wheelItems.length === 0}
+              // REVISION: The `before:*` classes that created the black pin have been removed.
               className="absolute w-[28%] h-[28%] bg-[#E30613] rounded-full flex items-center justify-center text-center shadow-inner border-4 border-white z-20
-                         transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-75
-                         before:content-[''] before:absolute before:w-0 before:h-0 before:z-30
-                         before:border-l-[12px] before:border-l-transparent
-                         before:border-r-[12px] before:border-r-transparent
-                         before:border-b-[16px] before:border-b-white
-                         before:top-[-18px]"
+                         transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-75"
             >
               <div className="text-white font-black text-xl md:text-2xl leading-tight tracking-wide">
                 HOME<br/>CREDIT
@@ -236,7 +225,21 @@ const SpinTheWheel: React.FC = () => {
         </div>
 
         <div className="w-full max-w-sm lg:w-[350px] flex-shrink-0 z-20 mt-8 lg:mt-24">
-          <Configuration items={wheelItems} setItems={setWheelItems} onItemsChange={() => setSelectedItem(null)} />
+          {isConfigVisible ? (
+            <Configuration 
+              items={wheelItems} 
+              setItems={setWheelItems} 
+              onItemsChange={() => setSelectedItem(null)} 
+              onToggleVisibility={() => setIsConfigVisible(false)}
+            />
+          ) : (
+            <button
+              onClick={() => setIsConfigVisible(true)}
+              className="w-full bg-white/80 backdrop-blur-md p-4 rounded-lg shadow-2xl border border-gray-200 text-gray-900 text-lg font-bold hover:bg-gray-200"
+            >
+              Show Panel
+            </button>
+          )}
         </div>
       </div>
 
