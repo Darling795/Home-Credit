@@ -148,7 +148,7 @@ const SpinTheWheel: React.FC = () => {
           <h1 className="text-5xl md:text-6xl font-black text-black tracking-wider mb-4">PLAY AND WIN</h1>
           
 
-          <div className="relative w-[600px] h-[600px] md:w-[1000px] md:h-[1000px] flex items-center justify-center">
+          <div className="relative w-[600px] h-[600px] md:w-[700px] md:h-[700px] flex items-center justify-center">
             <div 
               ref={wheelContainerRef} 
               className="w-full h-full"
