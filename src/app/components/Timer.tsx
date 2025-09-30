@@ -124,7 +124,7 @@ const EventScene: React.FC = () => {
               src={
                 showAltLogo
                   ? "/assets/aerophone_Black_font.png"
-                  : "/assets/ICenter_Logo.png"
+                  : "/assets/iCenter_Logo.png"
               }
               alt={showAltLogo ? "Aerophone" : "iCenter"}
               width={240}
