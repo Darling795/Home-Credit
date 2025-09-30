@@ -99,7 +99,7 @@ const EventScene: React.FC = () => {
         <div className="flex items-center gap-12 sm:gap-16">
           {/* Logo 1 */}
           <Image
-            src="/assets/HC-Logo-Horizontal.png"
+            src="/assets/HC-LOGO.png"
             alt="Home Credit"
             width={240}
             height={90}
