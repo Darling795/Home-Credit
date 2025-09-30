@@ -132,7 +132,7 @@ const SpinTheWheel: React.FC = () => {
           >
             <Image
               key={showAltLogo ? "aerophone" : "icenter"}
-              src={showAltLogo ? "/assets/aerophone_Black_font.png" : "/assets/ICenter_Logo.png"}
+              src={showAltLogo ? "/assets/aerophone_Black_font.png" : "/assets/iCenter_Logo.png"}
               alt={showAltLogo ? "Aerophone" : "iCenter"}
               width={240}
               height={90}
