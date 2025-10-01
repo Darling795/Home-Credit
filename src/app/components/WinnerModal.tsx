@@ -44,17 +44,6 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, item, onClose }) => {
   return (
     <>
       <GlobalStyles />
-      {/* 
-        ✨ START: THE FIX ✨
-        The <Confetti /> component is now INSIDE the main overlay div.
-        This ensures it renders ON TOP of the blurred background, but the modal content
-        (with its z-index) will render on top of the confetti.
-
-        The layering is now:
-        1. Modal Content (z-10)
-        2. Confetti (z-0, inside the container)
-        3. Blurred Background (the container div itself)
-      */}
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
         <Confetti
           width={width}
@@ -63,27 +52,28 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, item, onClose }) => {
           numberOfPieces={600}
           gravity={0.15}
           tweenDuration={8000}
-          // The confetti canvas is placed absolutely within the parent to not affect the flexbox centering.
           className="absolute inset-0 w-full h-full"
         />
         
-        {/* The modal content needs a z-index to sit above the confetti canvas */}
-        <div className="relative z-10 font-sans bg-white text-black rounded-3xl shadow-2xl p-8 sm:p-12 max-w-2xl w-full text-center border-4 border-yellow-300 overflow-hidden">
-        {/* ✨ END: THE FIX ✨ */}
+        {/* ✨ START: CHANGES FOR RESPONSIVENESS ✨ */}
+        <div className="relative z-10 font-sans bg-white text-black rounded-3xl shadow-2xl w-full text-center border-4 border-yellow-300 overflow-hidden
+                       max-w-3xl p-6 sm:p-10 md:p-12">
+        {/* ✨ END: CHANGES FOR RESPONSIVENESS ✨ */}
           
           <div className="absolute inset-0 flex items-center justify-center opacity-5 text-gray-400 -z-10 p-16">
             <TrophyIcon />
           </div>
 
           <h2 
-            className="text-5xl sm:text-6xl font-black mb-4 uppercase leading-tight animate-slide-in-from-top bg-gradient-to-br from-[#E30613] to-[#a1040d] bg-clip-text text-transparent"
+            // ✨ CHANGED: Responsive font size
+            className="text-4xl sm:text-5xl md:text-6xl font-black mb-4 uppercase leading-tight animate-slide-in-from-top bg-gradient-to-br from-[#E30613] to-[#a1040d] bg-clip-text text-transparent"
             style={{ animationDelay: '100ms' }}
           >
             Congratulations!
           </h2>
           
           <p 
-            className="text-2xl text-gray-600 mb-6 font-medium animate-slide-in-from-top"
+            className="text-xl sm:text-2xl text-gray-600 mb-6 font-medium animate-slide-in-from-top"
             style={{ animationDelay: '250ms' }}
           >
             You won:
@@ -96,7 +86,10 @@ const WinnerModal: React.FC<WinnerModalProps> = ({ isOpen, item, onClose }) => {
               animationDelay: '400ms' 
             }}
           >
-            <p className="text-5xl sm:text-7xl font-extrabold text-black break-words">
+            <p 
+              // ✨ CHANGED: Responsive font size for the prize name
+              className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-black break-words"
+            >
               {item.name}
             </p>
           </div>
