@@ -4,9 +4,34 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Configuration, { WheelItem } from "./configurations";
 import WinnerModal from './WinnerModal';
+import clsx from 'clsx'; // ✨ ADDED: For conditional class names
 
 // @ts-ignore - spin-wheel doesn't have TypeScript definitions
 import { Wheel } from 'spin-wheel';
+
+// ✨ START: New Animation Definitions ✨
+// This component injects the CSS keyframe animations needed for the marker and button.
+const GlobalStyles = () => (
+  <style jsx global>{`
+    @keyframes bob-marker {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-bob-marker {
+      animation: bob-marker 0.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 2s ease-in-out infinite;
+    }
+  `}</style>
+);
+// ✨ END: New Animation Definitions ✨
+
 
 const initialWheelItems: WheelItem[] = [
   { name: "Macbook Air" },
@@ -17,8 +42,8 @@ const initialWheelItems: WheelItem[] = [
   { name: "Umbrella" },
   { name: "Tote Bag" },
   { name: "Tumbler" },
-  { name: "Thanks for trying" },
-  { name: "Thanks for trying" },
+  { name: "Try Again" },
+  { name: "Try Again" },
 ];
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
 
@@ -37,19 +62,16 @@ const SpinTheWheel: React.FC = () => {
   useEffect(() => {
     if (!wheelContainerRef.current || wheelItems.length === 0) return;
 
-    // Clear previous wheel instance
     if (wheelInstanceRef.current) {
       wheelContainerRef.current.innerHTML = '';
     }
 
-    // Prepare wheel items
     const items = wheelItems.map((item, index) => ({
       label: item.name.toUpperCase(),
       backgroundColor: index % 2 === 0 ? '#FFFFFF' : '#E30613',
       labelColor: index % 2 === 0 ? '#E30613' : '#FFFFFF',
     }));
 
-    // Create wheel configuration
     const props = {
       items: items,
       borderWidth: 12,
@@ -61,9 +83,7 @@ const SpinTheWheel: React.FC = () => {
       itemLabelAlign: 'center',
       itemLabelColors: items.map(item => item.labelColor),
       itemLabelBaselineOffset: 0,
-      // ✨ CHANGE #1: Use a much bolder font family ✨
-      itemLabelFont: '"Arial Black"', 
-      // ✨ CHANGE #2: Increase the max font size for more impact ✨
+      itemLabelFont: 'Arial',
       itemLabelFontSizeMax: 10,
       itemBackgroundColors: items.map(item => item.backgroundColor),
       rotationSpeedMax: 500,
@@ -76,13 +96,12 @@ const SpinTheWheel: React.FC = () => {
         setSelectedItem(winningItem);
         setIsSpinning(false);
         
-        if (winningItem && !winningItem.name.toLowerCase().includes("thanks for trying")) {
+        if (winningItem && !winningItem.name.toLowerCase().includes("try again")) {
           setTimeout(() => setIsModalOpen(true), 500);
         }
       }
     };
 
-    // Initialize wheel
     const wheel = new Wheel(wheelContainerRef.current, props);
     wheelInstanceRef.current = wheel;
 
@@ -99,7 +118,6 @@ const SpinTheWheel: React.FC = () => {
     setIsSpinning(true);
     setSelectedItem(null);
     
-    // Spin to a random item
     const randomIndex = Math.floor(Math.random() * wheelItems.length);
     wheelInstanceRef.current.spinToItem(randomIndex, 4000, true, 2, 1);
   };
@@ -114,6 +132,8 @@ const SpinTheWheel: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 font-sans">
+      {/* ✨ ADDED: Inject animation styles ✨ */}
+      <GlobalStyles />
       <div className="w-full bg-white flex items-center justify-center py-6 px-8 shadow-lg">
         <div className="flex items-center gap-12 sm:gap-16">
           <Image
@@ -152,8 +172,12 @@ const SpinTheWheel: React.FC = () => {
           
           <div className="relative w-[600px] h-[600px] md:w-[700px] md:h-[700px] flex items-center justify-center">
             
+            {/* ✨ START: Animated Marker ✨ */}
             <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 z-30"
+              className={clsx(
+                "absolute top-0 left-1/2 -translate-x-1/2 w-0 h-0 z-30 transition-transform",
+                isSpinning && "animate-bob-marker" // This class is added when spinning
+              )}
               style={{
                 borderLeft: '20px solid transparent',
                 borderRight: '20px solid transparent',
@@ -162,6 +186,7 @@ const SpinTheWheel: React.FC = () => {
               }}
               aria-hidden="true"
             />
+            {/* ✨ END: Animated Marker ✨ */}
 
             <div 
               ref={wheelContainerRef} 
@@ -169,13 +194,19 @@ const SpinTheWheel: React.FC = () => {
               style={{ position: 'relative' }}
             />
             
+            {/* ✨ START: Animated & Aligned Spin Button ✨ */}
             <button
               onClick={handleSpinClick}
               disabled={isSpinning || wheelItems.length === 0}
-              className="absolute w-[28%] h-[28%] bg-[#E30613] rounded-full flex items-center justify-center text-center shadow-inner border-4 border-white z-20
-                         transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-75"
-              style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+              className={clsx(
+                "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2", // This fixes alignment with hover:scale
+                "w-[28%] h-[28%] bg-[#E30613] rounded-full flex items-center justify-center text-center shadow-inner border-4 border-white z-20",
+                "transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-75",
+                !isSpinning && wheelItems.length > 0 && "animate-pulse-slow" // This class is added when idle
+              )}
+              // The inline style for positioning has been removed and replaced with Tailwind classes above
             >
+            {/* ✨ END: Animated & Aligned Spin Button ✨ */}
               <div className="text-white font-black text-2xl md:text-3xl leading-tight tracking-wide">
                   <Image
                     src="/assets/white.png"
@@ -203,7 +234,6 @@ const SpinTheWheel: React.FC = () => {
         </div>
       </div>
 
-      {/* Configuration Modal */}
       {isConfigVisible && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-hidden">
