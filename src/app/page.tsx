@@ -1,12 +1,12 @@
 // src/app/page.tsx
 
-import EventScene from "./components/Timer";
+import Timer from "./components/Timer";
 import SpinTheWheel from "./components/SpinTheWheel";
 
 export default function Home() {
   return (
     <main>
-      <EventScene />
+      <Timer />
       {/* <SpinTheWheel /> */}
     </main>
   );
