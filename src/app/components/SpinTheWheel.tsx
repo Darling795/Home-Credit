@@ -204,7 +204,6 @@ const SpinTheWheel: React.FC = () => {
                 "transition-transform hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:scale-100 disabled:opacity-75",
                 !isSpinning && wheelItems.length > 0 && "animate-pulse-slow" // This class is added when idle
               )}
-              // The inline style for positioning has been removed and replaced with Tailwind classes above
             >
             {/* ✨ END: Animated & Aligned Spin Button ✨ */}
               <div className="text-white font-black text-2xl md:text-3xl leading-tight tracking-wide">
@@ -213,7 +212,8 @@ const SpinTheWheel: React.FC = () => {
                     alt="Home Credit"
                     width={240}
                     height={90}
-                    className="object-contain h-16 w-auto sm:h-20"
+                    // ✨ CHANGED: Reduced the height from h-16/sm:h-20 to h-12/sm:h-16 to create more space.
+                    className="object-contain h-12 w-auto sm:h-16"
                     priority
                   />
               </div>
