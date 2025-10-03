@@ -153,9 +153,7 @@ const TimerDisplay: React.FC = () => {
 
 // --- EventScene component (No changes here) ---
 const EventScene: React.FC = () => {
-  // Toggle Logo 2 between iCenter and Aerophone
-  const [showAltLogo, setShowAltLogo] = useState(false);
-  const handleSwapLogo = () => setShowAltLogo(v => !v);
+  
 
   return (
     <div className="min-h-screen flex flex-col bg-black text-white">
@@ -175,29 +173,15 @@ const EventScene: React.FC = () => {
           {/* Divider */}
           <div className="h-16 w-[2px]" style={{ backgroundColor: "#CCCCCC" }} />
 
-          {/* Logo 2 (click to swap) */}
-          <button
-            onClick={handleSwapLogo}
-            className="focus:outline-none focus:ring-4 rounded-lg transition-transform hover:scale-105"
-            style={{ outlineColor: "#E11931" }}
-            aria-pressed={showAltLogo}
-            aria-label="Swap logo"
-            title="Swap logo"
-          >
-            <Image
-              key={showAltLogo ? "aerophone" : "icenter"} // forces re-render
-              src={
-                showAltLogo
-                  ? "/assets/aerophone_Black_font.png"
-                  : "/assets/iCenter_Logo.png"
-              }
-              alt={showAltLogo ? "Aerophone" : "iCenter"}
-              width={240}
-              height={90}
-              className="object-contain h-16 w-auto sm:h-20 transition-opacity duration-200"
-              priority
-            />
-          </button>
+          {/* Logo 2 */}
+          <Image
+            src="/assets/aerophone_Black_font.png"
+            alt="Aerophone"
+            width={240}
+            height={90}
+            className="object-contain h-16 w-auto sm:h-20"
+            priority
+          />
         </div>
       </div>
 
