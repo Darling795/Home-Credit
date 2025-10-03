@@ -54,10 +54,9 @@ const SpinTheWheel: React.FC = () => {
   const [wheelItems, setWheelItems] = useState<WheelItem[]>(initialWheelItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfigVisible, setIsConfigVisible] = useState(false);
-  const [showAltLogo, setShowAltLogo] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
 
-  const handleSwapLogo = () => setShowAltLogo(v => !v);
+  
 
   useEffect(() => {
     if (!wheelContainerRef.current || wheelItems.length === 0) return;
@@ -145,24 +144,14 @@ const SpinTheWheel: React.FC = () => {
             priority
           />
           <div className="h-16 w-[2px]" style={{ backgroundColor: "#CCCCCC" }} />
-          <button
-            onClick={handleSwapLogo}
-            className="focus:outline-none focus:ring-4 rounded-lg transition-transform hover:scale-105"
-            style={{ outlineColor: "#E11931" }}
-            aria-pressed={showAltLogo}
-            aria-label="Swap logo"
-            title="Swap logo"
-          >
-            <Image
-              key={showAltLogo ? "aerophone" : "icenter"}
-              src={showAltLogo ? "/assets/aerophone_Black_font.png" : "/assets/iCenter_Logo.png"}
-              alt={showAltLogo ? "Aerophone" : "iCenter"}
-              width={240}
-              height={90}
-              className="object-contain h-16 w-auto sm:h-20 transition-opacity duration-200"
-              priority
-            />
-          </button>
+          <Image
+            src="/assets/iCenter_Logo.png"
+            alt="iCenter"
+            width={240}
+            height={90}
+            className="object-contain h-16 w-auto sm:h-20"
+            priority
+          />
         </div>
       </div>
 
