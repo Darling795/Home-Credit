@@ -174,7 +174,7 @@ const EventScene: React.FC = () => {
 
           {/* Logo 2 */}
           <Image
-            src="/assets/iCenter_Logo.png"
+            src="/assets/beyond_the_box_logo.webp"
             alt="iCenter"
             width={240}
             height={90}
