@@ -172,10 +172,10 @@ const EventScene: React.FC = () => {
           {/* Divider */}
           <div className="h-16 w-[2px]" style={{ backgroundColor: "#CCCCCC" }} />
 
-          {/* Logo 2 */}
+          {/* Logo 2 - PowerMac */}
           <Image
-            src="/assets/iCenter_Logo.png"
-            alt="iCenter"
+            src="/assets/Powermac-logo.png"
+            alt="PowerMac Center"
             width={240}
             height={90}
             className="object-contain h-16 w-auto sm:h-20"
