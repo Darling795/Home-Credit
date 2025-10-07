@@ -202,7 +202,7 @@ const EventScene: React.FC = () => {
             maxWidth: "92%",
           }}
         >
-          iPhone Challenge
+          Free iPhone Challenge
         </h2>
         <TimerDisplay />
       </div>
