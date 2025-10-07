@@ -203,7 +203,7 @@ const EventScene: React.FC = () => {
             maxWidth: "92%",
           }}
         >
-          Home Credit's Free iPhone Challenge
+          Free iPhone Challenge
         </h2>
         <TimerDisplay />
       </div>
