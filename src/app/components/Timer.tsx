@@ -187,19 +187,24 @@ const EventScene: React.FC = () => {
       {/* Center content */}
       <div className="flex-1 flex flex-col items-center justify-center p-12 gap-8">
         <h2
-          style={{
+ style={{
             fontFamily: camptonStack,
             fontWeight: 800,
             fontStyle: "italic",
-            fontSize: "8vw",
+            fontSize: "clamp(28px, 7vw, 84px)",
             color: "#E11931",
             textShadow:
               "0 0 20px rgba(225,25,49,0.8), 0 0 40px rgba(225,25,49,0.5), 0 0 60px rgba(225,25,49,0.3), 0 6px 15px rgba(0,0,0,0.5)",
-            letterSpacing: "0.02em",
+            letterSpacing: "0.01em",
+            lineHeight: 1.1,
+            textAlign: "center",
             marginBottom: "1rem",
+            maxWidth: "92%",
           }}
         >
-          The Buzzwire
+          <span className="block">Home Credit</span>
+          <span className="block">Free iPhone</span>
+          <span className="block">Challenge</span>
         </h2>
         <TimerDisplay />
       </div>
