@@ -203,8 +203,7 @@ const EventScene: React.FC = () => {
           }}
         >
           <span className="block">Home Credit</span>
-          <span className="block">Free iPhone</span>
-          <span className="block">Challenge</span>
+          <span className="block">Free iPhone Challenge</span>
         </h2>
         <TimerDisplay />
       </div>
