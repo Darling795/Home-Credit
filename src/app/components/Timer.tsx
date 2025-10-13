@@ -5,10 +5,9 @@ import React, { useEffect, useState, useRef } from "react";
 
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
 
-// --- TimerDisplay component with 5-minute timer ---
+// --- TimerDisplay component with TV screen optimizations ---
 const TimerDisplay: React.FC = () => {
-  // CHANGED: Set initial time to 5 minutes (5 * 60 = 300 seconds)
-  const initialTime = 300;
+  const initialTime = 300; // 5 minutes
   const [time, setTime] = useState(initialTime);
   const [isActive, setIsActive] = useState(false);
 
@@ -16,7 +15,7 @@ const TimerDisplay: React.FC = () => {
   const timesUpAudioRef = useRef<HTMLAudioElement>(null);
   const loopTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // This effect handles the timer countdown itself
+  // useEffect hooks for timer logic and audio handling remain the same...
   useEffect(() => {
     let timerId: ReturnType<typeof setInterval> | undefined;
 
@@ -24,16 +23,13 @@ const TimerDisplay: React.FC = () => {
       timerId = setInterval(() => setTime((t) => t - 1), 1000);
     } else if (time === 0 && isActive) {
       setIsActive(false);
-      // Stop the countdown music when time is up
       if (countdownAudioRef.current) {
         countdownAudioRef.current.pause();
         countdownAudioRef.current.currentTime = 0;
       }
-      // Clear any pending loop timeout
       if (loopTimeoutRef.current) {
         clearTimeout(loopTimeoutRef.current);
       }
-      // Play the "Time's Up!" sound
       timesUpAudioRef.current?.play();
     }
 
@@ -42,25 +38,20 @@ const TimerDisplay: React.FC = () => {
     };
   }, [isActive, time]);
   
-  // This effect handles setting up the custom audio loop with a delay
   useEffect(() => {
     const audio = countdownAudioRef.current;
     if (!audio) return;
 
-    // Function to handle the end of audio playback
     const handleAudioEnd = () => {
-      // If the timer is still active, schedule the next playback
       if (isActive) {
         loopTimeoutRef.current = setTimeout(() => {
           audio.play();
-        }, 250); // 0.5 second delay
+        }, 250);
       }
     };
 
-    // Add the event listener
     audio.addEventListener('ended', handleAudioEnd);
 
-    // Cleanup function to remove the listener and clear timeout
     return () => {
       audio.removeEventListener('ended', handleAudioEnd);
       if (loopTimeoutRef.current) {
@@ -72,7 +63,6 @@ const TimerDisplay: React.FC = () => {
   const handleStart = () => {
     if (time === 0) setTime(initialTime);
     setIsActive(true);
-    // Start playing the countdown music for the first time
     countdownAudioRef.current?.play();
   };
 
@@ -80,12 +70,10 @@ const TimerDisplay: React.FC = () => {
     setIsActive(false);
     setTime(initialTime);
     
-    // Stop and reset the countdown music
     if (countdownAudioRef.current) {
       countdownAudioRef.current.pause();
       countdownAudioRef.current.currentTime = 0;
     }
-    // Clear the pending timeout to prevent it from playing again
     if (loopTimeoutRef.current) {
       clearTimeout(loopTimeoutRef.current);
     }
@@ -99,17 +87,22 @@ const TimerDisplay: React.FC = () => {
 
   const isTimeUp = time === 0;
 
+  // CHANGED FOR TV: Use `min(vw, vh)` to make font size responsive to both width and height.
+  const timerFontSize = isTimeUp 
+    ? "clamp(3.5rem, min(12vw, 18vh), 10rem)" // Min 56px, Preferred is smaller of 12% width or 18% height, Max 160px
+    : "clamp(5rem, min(20vw, 30vh), 18rem)";   // Min 80px, Preferred is smaller of 20% width or 30% height, Max 288px
+
   return (
     <>
       <audio ref={countdownAudioRef} src="/assets/countdown-music.mp3" />
       <audio ref={timesUpAudioRef} src="/assets/times-up-sound.mp3" />
 
-      <div className="flex flex-col items-center gap-16">
+      {/* CHANGED FOR TV: Reduced vertical gap */}
+      <div className="flex flex-col items-center gap-6 md:gap-8 lg:gap-10">
         <div
-          className={`font-mono font-black tracking-wider leading-none transition-all duration-300 ${
-            isTimeUp ? "text-[12vw]" : "text-[20vw]"
-          }`}
+          className="font-mono font-black tracking-wider leading-none transition-all duration-300 text-center"
           style={{
+            fontSize: timerFontSize, // Applied the new aspect-ratio-aware font size
             color: "#E11931",
             textShadow:
               "0 0 30px rgba(225,25,49,0.8), 0 0 60px rgba(225,25,49,0.5), 0 0 90px rgba(225,25,49,0.3), 0 8px 20px rgba(0,0,0,0.5)",
@@ -122,7 +115,8 @@ const TimerDisplay: React.FC = () => {
         {!isActive ? (
           <button
             onClick={handleStart}
-            className="rounded-2xl text-6xl font-bold text-white py-8 px-24 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
+            // CHANGED FOR TV: Slightly smaller text and padding on large screens to save vertical space
+            className="rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95 text-3xl py-4 px-12 sm:text-4xl md:text-5xl lg:text-5xl lg:py-6 lg:px-20"
             style={{
               backgroundColor: "#E11931",
               boxShadow:
@@ -135,7 +129,8 @@ const TimerDisplay: React.FC = () => {
         ) : (
           <button
             onClick={handleRestart}
-            className="rounded-2xl text-6xl font-bold text-white py-8 px-24 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95"
+            // CHANGED FOR TV: Slightly smaller text and padding on large screens to save vertical space
+            className="rounded-2xl font-bold text-white transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95 text-3xl py-4 px-12 sm:text-4xl md:text-5xl lg:text-5xl lg:py-6 lg:px-20"
             style={{
               backgroundColor: "#787878",
               boxShadow: "0 10px 40px rgba(120,120,120,0.5)",
@@ -151,59 +146,63 @@ const TimerDisplay: React.FC = () => {
 };
 
 
-// --- EventScene component (No changes here) ---
+// --- EventScene component with TV screen optimizations ---
 const EventScene: React.FC = () => {
-  
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    // Add overflow-hidden to prevent scrollbars on unusual aspect ratios
+    <div className="min-h-screen flex flex-col bg-black text-white overflow-hidden">
       {/* Header with logos */}
-      <div className="w-full bg-white flex items-center justify-center py-6 px-8 shadow-2xl">
-        <div className="flex items-center gap-12 sm:gap-16">
+      <div className="w-full bg-white flex items-center justify-center py-4 px-6 sm:py-5 sm:px-8 shadow-2xl">
+        <div className="flex items-center gap-8 sm:gap-12 lg:gap-16">
           {/* Logo 1 */}
           <Image
             src="/assets/HC-LOGO.png"
             alt="Home Credit"
             width={240}
             height={90}
-            className="object-contain h-16 w-auto sm:h-20"
+            // CHANGED FOR TV: More conservative height on larger screens
+            className="object-contain h-12 w-auto sm:h-14 md:h-16 lg:h-20"
             priority
           />
 
           {/* Divider */}
-          <div className="h-16 w-[2px]" style={{ backgroundColor: "#CCCCCC" }} />
+          <div className="h-12 w-[2px] sm:h-14 md:h-16 lg:h-20" style={{ backgroundColor: "#CCCCCC" }} />
 
           {/* Logo 2 */}
           <Image
             src="/assets/aerophone_Black_font.png"
-            alt="Aerophone"
+            alt="aerophone"
             width={240}
             height={90}
-            className="object-contain h-16 w-auto sm:h-20"
+            // CHANGED FOR TV: More conservative height on larger screens
+            className="object-contain h-12 w-auto sm:h-14 md:h-16 lg:h-20"
             priority
           />
         </div>
       </div>
 
       {/* Center content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-12 gap-8">
+      {/* CHANGED FOR TV: Reduced padding and gap for more vertical room */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8 gap-4 md:gap-6">
         <h2
           style={{
             fontFamily: camptonStack,
             fontWeight: 800,
             fontStyle: "italic",
-            fontSize: "clamp(28px, 7vw, 84px)",
+            // CHANGED FOR TV: Also constrain title font size with viewport height
+            fontSize: "clamp(28px, min(7vw, 9vh), 72px)",
             color: "#E11931",
             textShadow:
               "0 0 20px rgba(225,25,49,0.8), 0 0 40px rgba(225,25,49,0.5), 0 0 60px rgba(225,25,49,0.3), 0 6px 15px rgba(0,0,0,0.5)",
             letterSpacing: "0.01em",
             lineHeight: 1.1,
             textAlign: "center",
-            marginBottom: "1rem",
+            marginBottom: "0.5rem", // Reduced margin
             maxWidth: "92%",
           }}
         >
-          <span className="block">Home Credit's</span>
+          <span className="block">Home Credit</span>
           <span className="block">Free iPhone Challenge</span>
         </h2>
         <TimerDisplay />
