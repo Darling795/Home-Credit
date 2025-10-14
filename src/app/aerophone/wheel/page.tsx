@@ -146,7 +146,7 @@ const SpinTheWheel: React.FC = () => {
           />
           <div className="h-16 w-[2px]" style={{ backgroundColor: "#CCCCCC" }} />
           <Image
-            src="/assets/aerophone_Black_font.png"
+            src="/assets/aerophone.png"
             alt="Aerophone"
             width={240}
             height={90}
