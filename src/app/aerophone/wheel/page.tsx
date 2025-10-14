@@ -44,6 +44,7 @@ const initialWheelItems: WheelItem[] = [
   { name: "Tumbler" },
   { name: "Try Again" },
   { name: "Try Again" },
+  { name: "Try Again" },
 ];
 const camptonStack = '"Campton", "Arial", "Helvetica", sans-serif';
 
