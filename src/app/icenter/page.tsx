@@ -109,7 +109,7 @@ const TimerDisplay: React.FC = () => {
             WebkitTextStroke: "2px rgba(225,25,49,0.3)",
           }}
         >
-          {isTimeUp ? "Time's Up!" : formatTime(time)}
+          {isTimeUp ? "Time's Up!!!!" : formatTime(time)}
         </div>
 
         {!isActive ? (
